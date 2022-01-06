@@ -16,6 +16,9 @@ public class OpponentBehaviour : MonoBehaviour
 
     void Update()
     {
+        //tells the opponent to look away once the timer hits zero, but leads to their head spinning uncontrollably instead of facing the front again
+        // none of the attempts to fix it have worked so far
+        
         /*lookingAwayTimer();
         Debug.Log(timer);
 
@@ -31,12 +34,13 @@ public class OpponentBehaviour : MonoBehaviour
             }
         }*/
         lookingAwayTimer();
-        Debug.Log(timer);
+        //Debug.Log(timer);
 
 
-        if (timer <= 0)
+        if (timer <= 0) 
         {
             head.transform.Rotate(new Vector3(0, 90, 0) * rotationSpeed * Time.deltaTime, Space.World);
+            Debug.Log("head starts spinning uncontrollably");
         }
     }
 
@@ -45,7 +49,7 @@ public class OpponentBehaviour : MonoBehaviour
         timer -= Time.deltaTime; //counting down seconds
     }
 
-    IEnumerator wait() //waits before turning the head back
+    IEnumerator wait() //waits before turning the head back (not working yet)
         {
             int waitTime = Random.Range (5, 10);
             yield return new WaitForSeconds (waitTime);
