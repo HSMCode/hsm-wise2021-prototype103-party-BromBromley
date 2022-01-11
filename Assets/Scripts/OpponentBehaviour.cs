@@ -18,10 +18,17 @@ public class OpponentBehaviour : MonoBehaviour
     {
         //tells the opponent to look away once the timer hits zero, but leads to their head spinning uncontrollably instead of facing the front again
         // none of the attempts to fix it have worked so far
-        
-        /*lookingAwayTimer();
+        lookingAwayTimer();
         Debug.Log(timer);
 
+
+        if (timer <= 0) //head rotates, but can't stand still or face the player
+        {
+            head.transform.Rotate(new Vector3(0, 90, 0) * rotationSpeed * Time.deltaTime, Space.World);
+            Debug.Log("head starts spinning uncontrollably"); //because the timer stays below 0
+        }
+
+        /* nested loops to rotate the head
         if (timer >= 0 && timer <= 1)
         {
             //StartCoroutine (wait());
@@ -33,15 +40,13 @@ public class OpponentBehaviour : MonoBehaviour
                 timer = Random.Range(5, 15);
             }
         }*/
-        lookingAwayTimer();
-        //Debug.Log(timer);
 
-
-        if (timer <= 0) 
+        /* coroutine to rotate the head
+        if (timer >= 0 && timer <= 1)
         {
+            //StartCoroutine (wait());
             head.transform.Rotate(new Vector3(0, 90, 0) * rotationSpeed * Time.deltaTime, Space.World);
-            Debug.Log("head starts spinning uncontrollably");
-        }
+        }*/
     }
 
     public void lookingAwayTimer()
@@ -51,7 +56,7 @@ public class OpponentBehaviour : MonoBehaviour
 
     IEnumerator wait() //waits before turning the head back (not working yet)
         {
-            int waitTime = Random.Range (5, 10);
+            int waitTime = Random.Range (5, 10); 
             yield return new WaitForSeconds (waitTime);
             head.transform.Rotate(new Vector3(0, -90, 0) * rotationSpeed * Time.deltaTime, Space.World);
             timer = Random.Range(5, 15);
