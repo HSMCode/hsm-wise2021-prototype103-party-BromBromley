@@ -4,14 +4,28 @@ using UnityEngine;
 
 public class PieceController : MonoBehaviour
 {
-    private Dice _dice;
+    // this script moves the player's piece
+    private DiceController _dice;
+    public int stepsTaken;
     void Start()
     {
-        _dice = FindObjectOfType<Dice>();
+        _dice = FindObjectOfType<DiceController>();
     }
 
     void Update()
     {
-        
+        if (_dice.diceRolled && _dice.movePiece)
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                MovePiece();
+                stepsTaken++;
+            }
+        }
+    }
+
+    public void MovePiece() // moves piece one field
+    {
+        transform.Translate(new Vector3(0.105f, 0, 0), Space.World);
     }
 }
