@@ -6,74 +6,60 @@ using Random = UnityEngine.Random;
 
 public class OpponentBehaviour : MonoBehaviour
 {
-    public Transform headRotation;
+    // this script makes the opponent look away from time to time
     public float timer;
     public GameObject head;
-    private float rotationSpeed = 10;
+    //private float rotationSpeed = 10;
     public float rotationAngle;
     public bool countdown;
+    public bool lookingForward;
+
     void Start()
     {
         timer = Random.Range(8, 10);
-        countdown = true;
+
+        countdown = false;
+        lookingForward = true;
     }
 
     void Update()
     {
-        //tells the opponent to look away once the timer hits zero, but leads to their head spinning uncontrollably instead of facing the front again
-        // none of the attempts to fix it have worked so far
         LookingAwayTimer();
-        // Debug.Log(timer);
 
-
-        if (timer > 1 && timer < 5 && countdown) //head rotates, but can't stand still or face the player
+        if (timer > 1 && timer < 2 && countdown) //head rotates in a specific range of the timer
         {
-            head.transform.Rotate(new Vector3(0, (90 * rotationSpeed) * Time.deltaTime, 0), Space.World);
-            Debug.Log("head starts spinning uncontrollably"); //because the timer stays below 0
+            head.transform.Rotate(new Vector3(0, 60, 0), Space.World);
+
+            lookingForward = false;
         }
 
-        // nested loops to rotate the head
         else if (timer < 1 && countdown)
         {
             StartCoroutine (WaitTurn());
-            
-            // if (timer < -3)
-            // {
-            //     Debug.Log("timer hit -3");
-            //     head.transform.Rotate(new Vector3(0, -90, 0), Space.World);
-            //     timer = Random.Range(5, 15);
-            // }
         }
-        
-        // coroutine to rotate the head
-        // if (timer > 0) //&& timer <= 1)
-        // {
-        //     StartCoroutine (wait());
-        //     head.transform.Rotate(new Vector3(0, 90, 0), Space.World);
-        // }
     }
     
 
-    public void LookingAwayTimer()
+    public void LookingAwayTimer() //time the opponents looks forward before turning their head
     {
         if (countdown)
         {
-            timer -= Time.deltaTime; //counting down seconds
+            timer -= Time.deltaTime;
         }
     }
 
-    IEnumerator WaitTurn() //waits before turning the head back (not working yet)
+    IEnumerator WaitTurn() //waits before turning the head back
     {
         timer = 0;
         countdown = false;
-        // reset head rotation to zero
-        head.transform.rotation = Quaternion.Euler(0,0,0);
         
-        int waitTime = Random.Range (5, 10);
+        int waitTime = Random.Range (3, 7); //time the enemy is looking away
         yield return new WaitForSeconds(waitTime);
+
+        head.transform.rotation = Quaternion.Euler(0,0,0); //reset head rotation to zero
             
-        Debug.Log("reset counter");
-        timer = Random.Range(5, 15);
+        timer = Random.Range(5, 10);
         countdown = true;
+        lookingForward = true;
     }
 }
