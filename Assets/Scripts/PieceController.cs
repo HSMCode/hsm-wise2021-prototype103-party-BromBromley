@@ -5,6 +5,7 @@ using UnityEngine;
 public class PieceController : MonoBehaviour
 {
     // this script moves the player's piece
+    // attached to the blue pawn
     private DiceController _dice;
     public int stepsTaken;
     void Start()
@@ -14,7 +15,7 @@ public class PieceController : MonoBehaviour
 
     void Update()
     {
-        if (_dice.diceRolled && _dice.movePiece)
+        if (_dice.diceRolled && _dice.movePiece &&_dice.playersTurn)
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {

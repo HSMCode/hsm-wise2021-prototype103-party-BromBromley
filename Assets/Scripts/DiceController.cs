@@ -6,6 +6,7 @@ using TMPro;
 public class DiceController : MonoBehaviour
 {
     // this script manages the player's input and changes the HUD texts
+    // attached to the empty object DiceManager
     public TextMeshProUGUI dieRollText;
     public TextMeshProUGUI instructionsText;
     public TextMeshProUGUI timerText;
@@ -15,30 +16,39 @@ public class DiceController : MonoBehaviour
     public bool diceRolled;
     public bool movePiece;
     public bool playersTurn;
-
     private float timer = 11;
+    private GameManager _gameManager;
+    private AudioManager _audioManager;
+
+    void Awake()
+    {
+        _gameManager = FindObjectOfType<GameManager>();
+        _audioManager = FindObjectOfType<AudioManager>();
+    }
     void Start()
     {
         diceRolled = false;
         movePiece = false;
-        playersTurn = true;
+        playersTurn = false;
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && playersTurn)
+        if (playersTurn && _gameManager.isRunning)
         {
-            if (diceRolled == false && movePiece == false) // player rolls the dice
+            if (Input.GetKeyDown(KeyCode.Space) && diceRolled == false && movePiece == false) // player rolls the dice
             {
                 int dieRoll = Random.Range(1, 6);
                 dieRollText.text = "You rolled a " + dieRoll;
                 score += dieRoll;
 
                 instructionsText.text = "Press 'Space' for each step you want to take";
+                
+                _audioManager.DiceSound();
 
                 movePiece = true;
             }
-            if (diceRolled == true && movePiece == false) // start next turn
+            if (Input.GetKeyDown(KeyCode.Space) && diceRolled == true && movePiece == false) // start next turn
             {
                 dieRollText.text = " ";
                 instructionsText.text = "Press 'Space' to roll the dice";

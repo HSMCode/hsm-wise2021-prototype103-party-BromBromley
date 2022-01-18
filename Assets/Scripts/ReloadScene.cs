@@ -6,6 +6,8 @@ using UnityEngine.SceneManagement;
 
 public class ReloadScene : MonoBehaviour
 {
+    // this script reloads the scene
+    // attached to the table
     public Button retryButton;
     void Start()
     {

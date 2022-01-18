@@ -4,54 +4,80 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    private DiceController _dice;
+    // the game manager
+    // attached to the empty object GameManager
+    private DiceController _diceController;
     private UIManager _uiManager;
     private PieceController _pieceController;
     private OpponentBehaviour _opponentBehaviour;
     private CheatCheck _cheatCheck;
     private OpponentPiece _opponentPiece;
+    private AudioManager _audioManager;
     public bool isRunning = false;
 
     void Awake()
     {
-        _dice = FindObjectOfType<DiceController>();
+        _diceController = FindObjectOfType<DiceController>();
         _uiManager = FindObjectOfType<UIManager>();
         _opponentBehaviour = FindObjectOfType<OpponentBehaviour>();
         _pieceController = FindObjectOfType<PieceController>();
         _cheatCheck = FindObjectOfType<CheatCheck>();
         _opponentPiece = FindObjectOfType<OpponentPiece>();
-
-
+        _audioManager = FindObjectOfType<AudioManager>();
     }
 
     void Update()
     {
+
+        if (isRunning == false && _diceController.playersTurn == false)
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                StartGame();
+            }
+        }
         if (isRunning)
         {
             if (_pieceController.stepsTaken >= 15)
             {
                 _uiManager.WonGame();
+                _audioManager.PlayEvilLaughter();
                 isRunning = false;
+                _opponentBehaviour.countdown = false;
             }
 
             if (_opponentPiece.opponentScore >= 15)
             {
                 _uiManager.LostGame();
+                _audioManager.LoseSound();
                 isRunning = false;
+                _opponentBehaviour.countdown = false;
             }
 
-            if (_cheatCheck.timesCaught >= 3)
+            if (_cheatCheck.timesCaught >= 2)
             {
                 _uiManager.CaughtCheating();
+                _audioManager.LoseSound();
                 isRunning = false;
+                _opponentBehaviour.countdown = false;
             }
         }
     }
 
     public void StartGame()
     {
+        _uiManager.StartingGame();
+        _audioManager.StartMusic();
+        StartCoroutine(OnStartGame());
+    }
+
+    IEnumerator OnStartGame()
+    {
+        yield return new WaitForSeconds(1);
         isRunning = true;
+
         _opponentBehaviour.countdown = true;
+        _diceController.playersTurn = true;
     }
     
     public void QuitGame()

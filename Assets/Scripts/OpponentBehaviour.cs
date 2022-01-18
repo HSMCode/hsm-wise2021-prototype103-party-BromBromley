@@ -7,12 +7,14 @@ using Random = UnityEngine.Random;
 public class OpponentBehaviour : MonoBehaviour
 {
     // this script makes the opponent look away from time to time
+    // attached to opponent body
     public float timer;
     public GameObject head;
-    //private float rotationSpeed = 10;
     public float rotationAngle;
     public bool countdown;
     public bool lookingForward;
+    public bool gotCaught;
+    private float timerSeconds;
 
     void Start()
     {
@@ -20,22 +22,19 @@ public class OpponentBehaviour : MonoBehaviour
 
         countdown = false;
         lookingForward = true;
+        gotCaught = false;
     }
 
     void Update()
     {
         LookingAwayTimer();
 
-        if (timer > 1 && timer < 2 && countdown) //head rotates in a specific range of the timer
+        if (timerSeconds == 0 && countdown && lookingForward == true) //head rotates in a specific range of the timer
         {
-            head.transform.Rotate(new Vector3(0, 60, 0), Space.World);
+            
+            StartCoroutine (WaitTurn());
 
             lookingForward = false;
-        }
-
-        else if (timer < 1 && countdown)
-        {
-            StartCoroutine (WaitTurn());
         }
     }
     
@@ -45,18 +44,21 @@ public class OpponentBehaviour : MonoBehaviour
         if (countdown)
         {
             timer -= Time.deltaTime;
+            timerSeconds = Mathf.FloorToInt(timer % 60f);
         }
     }
 
     IEnumerator WaitTurn() //waits before turning the head back
     {
+        head.transform.Rotate(new Vector3(0, 45, 0), Space.World);
         timer = 0;
         countdown = false;
+        gotCaught = false;
         
         int waitTime = Random.Range (3, 7); //time the enemy is looking away
         yield return new WaitForSeconds(waitTime);
 
-        head.transform.rotation = Quaternion.Euler(0,0,0); //reset head rotation to zero
+        head.transform.rotation = Quaternion.Euler(0,0,90); //reset head rotation to zero
             
         timer = Random.Range(5, 10);
         countdown = true;
