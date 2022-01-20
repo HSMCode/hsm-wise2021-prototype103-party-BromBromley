@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class OpponentPiece : MonoBehaviour
 {
@@ -30,7 +31,7 @@ public class OpponentPiece : MonoBehaviour
             {
                 transform.Translate(new Vector3(0.105f, 0, 0), Space.World);
 
-                _diceController.instructionsText.text = "Your turn! Press 'Space' to roll the dice";
+                _diceController.instructionsText.text = "Your turn! [space] to roll the dice";
                 _diceController.playersTurn = true;
                 _diceController.diceRolled = false;
             }

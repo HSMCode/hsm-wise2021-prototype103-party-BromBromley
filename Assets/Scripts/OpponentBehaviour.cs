@@ -15,6 +15,14 @@ public class OpponentBehaviour : MonoBehaviour
     public bool lookingForward;
     public bool gotCaught;
     private float timerSeconds;
+    private CheatCheck _cheatCheck;
+    private PieceController _pieceController;
+
+    void Awake()
+    {
+        _cheatCheck = FindObjectOfType<CheatCheck>();
+        _pieceController = FindObjectOfType<PieceController>();
+    }
 
     void Start()
     {
@@ -55,11 +63,12 @@ public class OpponentBehaviour : MonoBehaviour
         countdown = false;
         gotCaught = false;
         
-        int waitTime = Random.Range (3, 7); //time the enemy is looking away
+        int waitTime = Random.Range (1, 4); //time the enemy is looking away
         yield return new WaitForSeconds(waitTime);
 
         head.transform.rotation = Quaternion.Euler(0,0,90); //reset head rotation to zero
             
+        _cheatCheck.perceivedSteps = _pieceController.stepsTaken;
         timer = Random.Range(5, 10);
         countdown = true;
         lookingForward = true;

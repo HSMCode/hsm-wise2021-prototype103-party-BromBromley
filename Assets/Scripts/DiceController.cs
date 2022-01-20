@@ -16,14 +16,18 @@ public class DiceController : MonoBehaviour
     public bool diceRolled;
     public bool movePiece;
     public bool playersTurn;
-    private float timer = 11;
+    private float timer = 5;
     private GameManager _gameManager;
     private AudioManager _audioManager;
+    private CheatCheck _cheatCheck;
+    private PieceController _pieceController;
 
     void Awake()
     {
         _gameManager = FindObjectOfType<GameManager>();
         _audioManager = FindObjectOfType<AudioManager>();
+        _cheatCheck = FindObjectOfType<CheatCheck>();
+        _pieceController = FindObjectOfType<PieceController>();
     }
     void Start()
     {
@@ -41,9 +45,10 @@ public class DiceController : MonoBehaviour
                 int dieRoll = Random.Range(1, 6);
                 dieRollText.text = "You rolled a " + dieRoll;
                 score += dieRoll;
+                _cheatCheck.perceivedSteps += dieRoll;
 
-                instructionsText.text = "Press 'Space' for each step you want to take";
-                
+                instructionsText.text = "[space] for each step you want to take";
+
                 _audioManager.DiceSound();
 
                 movePiece = true;
@@ -51,7 +56,7 @@ public class DiceController : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Space) && diceRolled == true && movePiece == false) // start next turn
             {
                 dieRollText.text = " ";
-                instructionsText.text = "Press 'Space' to roll the dice";
+                instructionsText.text = "[space] to roll the dice";
 
                 diceRolled = false;
             }
@@ -64,11 +69,13 @@ public class DiceController : MonoBehaviour
                 movePiece = false;
                 playersTurn = false;
 
+                _cheatCheck.perceivedSteps += _pieceController.stepsTaken;
+
                 timerText.text = " ";
                 dieRollText.text = " ";
                 instructionsText.text = "Wait for your turn";
 
-                timer = 11;
+                timer = 3;
             }
     }
 

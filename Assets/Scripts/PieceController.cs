@@ -15,7 +15,7 @@ public class PieceController : MonoBehaviour
 
     void Update()
     {
-        if (_dice.diceRolled && _dice.movePiece &&_dice.playersTurn)
+        if (_dice.diceRolled && _dice.movePiece &&_dice.playersTurn && stepsTaken < 15)
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {

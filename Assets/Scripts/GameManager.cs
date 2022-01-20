@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     private CheatCheck _cheatCheck;
     private OpponentPiece _opponentPiece;
     private AudioManager _audioManager;
+    private ReloadScene _reloadScene;
     public bool isRunning = false;
 
     void Awake()
@@ -24,6 +25,12 @@ public class GameManager : MonoBehaviour
         _cheatCheck = FindObjectOfType<CheatCheck>();
         _opponentPiece = FindObjectOfType<OpponentPiece>();
         _audioManager = FindObjectOfType<AudioManager>();
+        _reloadScene = FindObjectOfType<ReloadScene>();
+    }
+
+    void Start()
+    {
+        _audioManager.StartMusic();
     }
 
     void Update()
@@ -62,12 +69,21 @@ public class GameManager : MonoBehaviour
                 _opponentBehaviour.countdown = false;
             }
         }
+
+        if (_uiManager.gameOver && Input.GetKeyDown(KeyCode.Space))
+        {
+            _reloadScene.RestartScene();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape) && isRunning == false)
+        {
+            QuitGame();
+        }
     }
 
     public void StartGame()
     {
         _uiManager.StartingGame();
-        _audioManager.StartMusic();
         StartCoroutine(OnStartGame());
     }
 
@@ -78,6 +94,7 @@ public class GameManager : MonoBehaviour
 
         _opponentBehaviour.countdown = true;
         _diceController.playersTurn = true;
+        _diceController.instructionsText.text = "[space] to roll the dice";
     }
     
     public void QuitGame()

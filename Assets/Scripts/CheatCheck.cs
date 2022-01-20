@@ -13,6 +13,7 @@ public class CheatCheck : MonoBehaviour
     [SerializeField] private GameObject leftEyebrow;
     [SerializeField] private GameObject rightEyebrow;
     public int timesCaught = 0;
+    public int perceivedSteps = 0;
 
     void Awake()
     {
@@ -26,7 +27,7 @@ public class CheatCheck : MonoBehaviour
     {
         if (_opponentBehaviour.lookingForward == true && _opponentBehaviour.gotCaught == false)
         {
-            if (_pieceController.stepsTaken > _diceController.score)  //catches you when turning back his head
+            if (_pieceController.stepsTaken > perceivedSteps)  //catches you when turning back his head
             {
                 StartCoroutine(GettingCaught());
             }
@@ -39,6 +40,8 @@ public class CheatCheck : MonoBehaviour
         rightEyebrow.transform.Rotate(new Vector3(0, 0, 20), Space.Self);
 
         timesCaught++;
+        perceivedSteps = _pieceController.stepsTaken;
+
         _opponentBehaviour.gotCaught = true;
         _audioManager.AngrySound();
         
