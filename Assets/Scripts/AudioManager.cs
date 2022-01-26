@@ -12,6 +12,7 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioClip awwSound;
     [SerializeField] private AudioClip hmmSound;
     [SerializeField] private AudioClip diceRoll;
+    [SerializeField] private AudioClip thudSound;
     
 
     void Awake()
@@ -43,5 +44,10 @@ public class AudioManager : MonoBehaviour
     public void PlayEvilLaughter()
     {
         _soundPlayer.PlayOneShot(evilLaughter, 3f);
+    }
+
+    public void MovingPiece()
+    {
+        _soundPlayer.PlayOneShot(thudSound, 2f);
     }
 }

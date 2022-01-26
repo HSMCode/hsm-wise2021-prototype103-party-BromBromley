@@ -69,7 +69,7 @@ public class OpponentBehaviour : MonoBehaviour
         head.transform.rotation = Quaternion.Euler(0,0,90); //reset head rotation to zero
             
         _cheatCheck.perceivedSteps = _pieceController.stepsTaken;
-        timer = Random.Range(5, 10);
+        timer = Random.Range(5, 8);
         countdown = true;
         lookingForward = true;
     }

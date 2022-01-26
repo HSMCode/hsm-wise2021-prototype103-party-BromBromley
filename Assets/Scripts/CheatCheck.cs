@@ -40,6 +40,12 @@ public class CheatCheck : MonoBehaviour
         rightEyebrow.transform.Rotate(new Vector3(0, 0, 20), Space.Self);
 
         timesCaught++;
+
+        for (int i = (_pieceController.stepsTaken - perceivedSteps); i > 0; i--) //sets the players piece back after getting caught cheating
+            {
+                _pieceController.MovePieceBack();
+            }
+
         perceivedSteps = _pieceController.stepsTaken;
 
         _opponentBehaviour.gotCaught = true;

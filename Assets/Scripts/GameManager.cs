@@ -75,10 +75,10 @@ public class GameManager : MonoBehaviour
             _reloadScene.RestartScene();
         }
 
-        if (Input.GetKeyDown(KeyCode.Escape) && isRunning == false)
+        /*if (Input.GetKeyDown(KeyCode.Escape) && isRunning == false)
         {
             QuitGame();
-        }
+        }*/
     }
 
     public void StartGame()
@@ -97,8 +97,8 @@ public class GameManager : MonoBehaviour
         _diceController.instructionsText.text = "[space] to roll the dice";
     }
     
-    public void QuitGame()
+    /*public void QuitGame()
     {
         Application.Quit();
-    }
+    }*/
 }

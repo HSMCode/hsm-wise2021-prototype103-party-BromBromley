@@ -42,7 +42,7 @@ public class DiceController : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Space) && diceRolled == false && movePiece == false) // player rolls the dice
             {
-                int dieRoll = Random.Range(1, 6);
+                int dieRoll = Random.Range(1, 5);
                 dieRollText.text = "You rolled a " + dieRoll;
                 score += dieRoll;
                 _cheatCheck.perceivedSteps += dieRoll;
