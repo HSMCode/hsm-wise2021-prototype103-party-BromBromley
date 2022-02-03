@@ -1,6 +1,6 @@
 # Cheats Do Prosper
 
-This is a one button game created in Unity, currently in its Alpha phase.
+This is a one button game created in Unity, currently in its Beta phase.
 
 ## Description
 
