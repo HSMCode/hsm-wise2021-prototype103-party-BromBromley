@@ -10,8 +10,10 @@ public class CheatCheck : MonoBehaviour
     private DiceController _diceController;
     private PieceController _pieceController;
     private AudioManager _audioManager;
+
     [SerializeField] private GameObject leftEyebrow;
     [SerializeField] private GameObject rightEyebrow;
+
     public int timesCaught = 0;
     public int perceivedSteps = 0;
 
@@ -36,24 +38,25 @@ public class CheatCheck : MonoBehaviour
 
     IEnumerator GettingCaught()
     {
-        leftEyebrow.transform.Rotate(new Vector3(0, 0, -20), Space.Self);
+        leftEyebrow.transform.Rotate(new Vector3(0, 0, -20), Space.Self); // facial expression changes to looking angry
         rightEyebrow.transform.Rotate(new Vector3(0, 0, 20), Space.Self);
 
         timesCaught++;
 
-        for (int i = (_pieceController.stepsTaken - perceivedSteps); i > 0; i--) //sets the players piece back after getting caught cheating
+        // sets the player's piece back after getting caught cheating, but somehow creates a bug where you get caught even tho you're not cheating 
+        /*for (int i = (_pieceController.stepsTaken - perceivedSteps); i > 0; i--)
             {
                 _pieceController.MovePieceBack();
-            }
+            }*/
 
-        perceivedSteps = _pieceController.stepsTaken;
+        perceivedSteps = _pieceController.stepsTaken; // resets perceivedSteps so you don't immediately get caught again
 
         _opponentBehaviour.gotCaught = true;
         _audioManager.AngrySound();
         
         yield return new WaitForSeconds(4);
 
-        leftEyebrow.transform.Rotate(new Vector3(0, 0, 20), Space.Self);
+        leftEyebrow.transform.Rotate(new Vector3(0, 0, 20), Space.Self); // facial expression changes back to normal
         rightEyebrow.transform.Rotate(new Vector3(0, 0, -20), Space.Self);
     }
 }

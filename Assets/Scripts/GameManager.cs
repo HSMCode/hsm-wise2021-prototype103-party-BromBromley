@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     private OpponentPiece _opponentPiece;
     private AudioManager _audioManager;
     private ReloadScene _reloadScene;
+    private UseParticles _useParticles;
     public bool isRunning = false;
 
     void Awake()
@@ -26,6 +27,7 @@ public class GameManager : MonoBehaviour
         _opponentPiece = FindObjectOfType<OpponentPiece>();
         _audioManager = FindObjectOfType<AudioManager>();
         _reloadScene = FindObjectOfType<ReloadScene>();
+        _useParticles = FindObjectOfType<UseParticles>();
     }
 
     void Start()
@@ -36,24 +38,26 @@ public class GameManager : MonoBehaviour
     void Update()
     {
 
-        if (isRunning == false && _diceController.playersTurn == false)
+        if (isRunning == false && _diceController.playersTurn == false) // manages input while the start screen is active
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 StartGame();
             }
         }
+
         if (isRunning)
         {
-            if (_pieceController.stepsTaken >= 15)
+            if (_pieceController.stepsTaken >= 15) // checks if player reached the goal
             {
                 _uiManager.WonGame();
                 _audioManager.PlayEvilLaughter();
+                _useParticles.EmitConfetti();
                 isRunning = false;
                 _opponentBehaviour.countdown = false;
             }
 
-            if (_opponentPiece.opponentScore >= 15)
+            if (_opponentPiece.opponentScore >= 15) // checks if opponent reached the goal
             {
                 _uiManager.LostGame();
                 _audioManager.LoseSound();
@@ -61,7 +65,7 @@ public class GameManager : MonoBehaviour
                 _opponentBehaviour.countdown = false;
             }
 
-            if (_cheatCheck.timesCaught >= 2)
+            if (_cheatCheck.timesCaught >= 2) // checks if player got caught cheating
             {
                 _uiManager.CaughtCheating();
                 _audioManager.LoseSound();
@@ -70,7 +74,7 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        if (_uiManager.gameOver && Input.GetKeyDown(KeyCode.Space))
+        if (_uiManager.gameOver && Input.GetKeyDown(KeyCode.Space)) // manages input while the game over screens are active
         {
             _reloadScene.RestartScene();
         }
@@ -87,7 +91,7 @@ public class GameManager : MonoBehaviour
         StartCoroutine(OnStartGame());
     }
 
-    IEnumerator OnStartGame()
+    IEnumerator OnStartGame() // waits a second after the game has started to activate gameplay
     {
         yield return new WaitForSeconds(1);
         isRunning = true;

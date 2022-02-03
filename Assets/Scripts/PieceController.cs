@@ -17,6 +17,7 @@ public class PieceController : MonoBehaviour
 
     void Update()
     {
+        // checks if all the conditions are met to let the player move their piece
         if (_dice.diceRolled && _dice.movePiece &&_dice.playersTurn && stepsTaken < 15)
         {
             if (Input.GetKeyDown(KeyCode.Space))
@@ -33,7 +34,7 @@ public class PieceController : MonoBehaviour
         _audioManager.MovingPiece();
     }
 
-    public void MovePieceBack()
+    public void MovePieceBack() // moves piece back one field
     {
         transform.Translate(new Vector3(-0.105f, 0, 0), Space.World);
     }

@@ -22,31 +22,54 @@ public class UIManager : MonoBehaviour
     
     public void WonGame()
     {
-        HUD.SetActive(false);
-        WinScreen.SetActive(true);
+        StartCoroutine(WaitForWinScreen());
         StartCoroutine(WaitForRetry());
     }
 
     public void LostGame()
     {
-        HUD.SetActive(false);
-        LoseScreen.SetActive(true);
+        StartCoroutine(WaitForLoseScreen());
         StartCoroutine(WaitForRetry());
     }
 
     public void CaughtCheating()
     {
-        HUD.SetActive(false);
-        LoseScreenCaught.SetActive(true);
+        StartCoroutine(WaitForCheatScreen());
         StartCoroutine(WaitForRetry());
     }
 
+
+    // makes the screens/buttons appear a couple of seconds after getting triggered
     IEnumerator WaitForRetry()
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(3);
 
         retryButton.SetActive(true);
         gameOver = true;
+    }
+
+    IEnumerator WaitForWinScreen()
+    {
+        yield return new WaitForSeconds(1);
+
+        HUD.SetActive(false);
+        WinScreen.SetActive(true);
+    }
+
+    IEnumerator WaitForLoseScreen()
+    {
+        yield return new WaitForSeconds(1);
+
+        HUD.SetActive(false);
+        LoseScreen.SetActive(true);
+    }
+
+    IEnumerator  WaitForCheatScreen()
+    {
+        yield return new WaitForSeconds(1);
+
+        HUD.SetActive(false);
+        LoseScreenCaught.SetActive(true);
     }
 
 }

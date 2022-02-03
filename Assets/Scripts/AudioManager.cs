@@ -7,6 +7,7 @@ public class AudioManager : MonoBehaviour
     // this script manages all sounds of the game
     // attached to the empty object MusicPlayer
     private AudioSource _soundPlayer;
+    
     [SerializeField] private AudioClip BackgroundMusic;
     [SerializeField] private AudioClip evilLaughter;
     [SerializeField] private AudioClip awwSound;

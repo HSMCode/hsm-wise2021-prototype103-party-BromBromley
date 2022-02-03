@@ -26,7 +26,7 @@ public class OpponentBehaviour : MonoBehaviour
 
     void Start()
     {
-        timer = Random.Range(8, 10);
+        timer = Random.Range(8, 10); // counts seconds until opponent looks away
 
         countdown = false;
         lookingForward = true;
@@ -37,7 +37,7 @@ public class OpponentBehaviour : MonoBehaviour
     {
         LookingAwayTimer();
 
-        if (timerSeconds == 0 && countdown && lookingForward == true) //head rotates in a specific range of the timer
+        if (timerSeconds == 0 && countdown && lookingForward == true) // head rotates in a specific range of the timer
         {
             
             StartCoroutine (WaitTurn());
@@ -47,7 +47,7 @@ public class OpponentBehaviour : MonoBehaviour
     }
     
 
-    public void LookingAwayTimer() //time the opponents looks forward before turning their head
+    public void LookingAwayTimer() // time the opponent looks forward before turning their head
     {
         if (countdown)
         {
@@ -56,17 +56,17 @@ public class OpponentBehaviour : MonoBehaviour
         }
     }
 
-    IEnumerator WaitTurn() //waits before turning the head back
+    IEnumerator WaitTurn() // waits before turning the head back
     {
         head.transform.Rotate(new Vector3(0, 45, 0), Space.World);
         timer = 0;
         countdown = false;
         gotCaught = false;
         
-        int waitTime = Random.Range (1, 4); //time the enemy is looking away
+        int waitTime = Random.Range (1, 4); // time the enemy is looking away
         yield return new WaitForSeconds(waitTime);
 
-        head.transform.rotation = Quaternion.Euler(0,0,90); //reset head rotation to zero
+        head.transform.rotation = Quaternion.Euler(0,0,90); // reset head rotation to zero
             
         _cheatCheck.perceivedSteps = _pieceController.stepsTaken;
         timer = Random.Range(5, 8);

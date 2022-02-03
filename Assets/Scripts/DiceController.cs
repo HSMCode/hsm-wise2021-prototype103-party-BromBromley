@@ -29,6 +29,7 @@ public class DiceController : MonoBehaviour
         _cheatCheck = FindObjectOfType<CheatCheck>();
         _pieceController = FindObjectOfType<PieceController>();
     }
+
     void Start()
     {
         diceRolled = false;
@@ -38,7 +39,7 @@ public class DiceController : MonoBehaviour
 
     void Update()
     {
-        if (playersTurn && _gameManager.isRunning)
+        if (playersTurn && _gameManager.isRunning) // manages player input
         {
             if (Input.GetKeyDown(KeyCode.Space) && diceRolled == false && movePiece == false) // player rolls the dice
             {
@@ -69,13 +70,11 @@ public class DiceController : MonoBehaviour
                 movePiece = false;
                 playersTurn = false;
 
-                _cheatCheck.perceivedSteps += _pieceController.stepsTaken;
-
                 timerText.text = " ";
                 dieRollText.text = " ";
                 instructionsText.text = "Wait for your turn";
 
-                timer = 3;
+                timer = 4;
             }
     }
 
